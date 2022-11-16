@@ -1,0 +1,79 @@
+private void amplitud(NodoArbol root) {
+            Queue<NodoArbol> fila; 
+            Queue<NodoArbol> filaAux;
+            //Fila fila, filaAux; 
+            NodoArbol aux; 
+
+            if (root != null) {
+                  fila = new LinkedList<>(); // SE INSTANCIA EL OBJETO FILA
+                  filaAux = new LinkedList<>(); // SE INSTANCIA EL OBJETO FILAAUX
+                  fila.insertar(root); // SE INSERTA LA RAIZ COMO PRIMER NODO EN LA FILA
+                  while (!fila.isEmpty()) {
+                        filaAux.insertar(aux = fila.extraer()); /*
+                                                                 * EL ELEMENTO EXTRAIDO DE LA FILA PRINCIPAL ES ASIGNADO
+                                                                 * A AUX Y A SU VEZ INSERTADO EN LA COLA AUXILIAR
+                                                                 */
+                        if (aux.hijo != null) {
+                              fila.insertar(aux.hijo);
+                        }
+                        if (aux.hermano != null) {
+                              fila.insertar(aux.hermano);
+                        }
+                  }
+                  filaAux.imprimir();
+            }
+      }
+
+      public class Fila {
+            class Nodo {
+                  NodoArbol info;
+                  Nodo sig;
+            }
+
+            private Nodo raiz, fondo;
+
+            public Fila() {
+                  raiz = null;
+                  fondo = null;
+            }
+
+            public boolean isEmpty() {
+                  return raiz == null;
+            }
+
+            public void insertar(NodoArbol x) {
+                  Nodo nuevo = new Nodo();
+                  nuevo.info = x;
+                  if (raiz == null) {
+                        raiz = nuevo;
+                        fondo = nuevo;
+                  } else {
+                        fondo.sig = nuevo;
+                        fondo = nuevo;
+                  }
+            }
+
+            public void imprimir() {
+                  Nodo reco = raiz;
+                  while (reco != null) {
+                        System.out.print(reco.info + "-");
+                        reco = reco.sig;
+                  }
+                  System.out.println();
+            }
+
+            public NodoArbol extraer() {
+                  if (raiz == null) {
+                        return null;
+                  } else {
+                        NodoArbol informacion = raiz.info;
+                        if (raiz == fondo) {
+                              raiz = null;
+                              fondo = null;
+                        } else {
+                              raiz = raiz.sig;
+                        }
+                        return informacion;
+                  }
+            }
+      }
