@@ -70,17 +70,7 @@ public class ArbolGeneral {
             }
       }
 
-      void Imprimir() {
-            imprime(root, " ");
-      }
-
-      private void imprime(NodoArbol r, String tab) {
-            if (r != null) {
-                  System.out.println(tab + r.letra);
-                  imprime(r.hijo, tab + "  ");
-                  imprime(r.hermano, tab);
-            }
-      }
+      
 
       public class Fila {
             class Nodo {
@@ -137,22 +127,15 @@ public class ArbolGeneral {
       }
 
       // Metodo n°1:Calcular la altura del Arbol
-      
-      int altura;
-      private void altura(NodoArbol root, int nivel) {
-            if(root != null) {
-                  altura(root.hijo, nivel+1);
-                  if(nivel > altura) {
-                        altura = nivel;
-                  }
-                  altura(root.hermano, nivel+1);
+      private int altura(NodoArbol root) {
+            if (root == null) {
+                  return 0;
             }
+            return 1 + Math.max(altura(root.hijo), altura(root.hermano));
       }
 
       public int Altura() {
-            altura = 0;
-            altura(root, 0);
-            return altura;
+            return altura(root);
       }
 
       // Metodo n°2:Calcular el Peso del Arbol
@@ -174,32 +157,31 @@ public class ArbolGeneral {
                   return false;
             }
 
+            arr.add(root.letra);
             if (root.letra == x) {
-                  arr.add(root.letra);
                   return true;
             }
 
             if (getPath(root.hijo, arr, x) || getPath(root.hermano, arr, x)) {
-                  arr.add(root.letra);
                   return true;
             }
-            arr.remove(arr.size()-1);
+            arr.remove(arr.size() - 1);
             return false;
       }
 
       private String path(NodoArbol A, String B) {
             ArrayList<String> arr = new ArrayList<String>();
-            String listString1 = String.join("/", arr);
-            if (A == null) {
-                  return listString1;
-            }
             getPath(A, arr, B);
             String bueno = String.join("/", arr);
             return bueno;
       }
 
       public String Path(String o) {
-            return path(root, o);
+            if (root != null) {
+                  return path(root, o);
+            }
+            return "La raiz esta vacia";
+
       }
 
       // Metodo n°6: Recorrido Preorden Iterativo del Arbol
@@ -231,26 +213,25 @@ public class ArbolGeneral {
             preordenIterativo(root);
       }
 
-
       // Metodo n°7: Imprimir por nivel
       private void pornivel(NodoArbol root) {
-            if(root != null) {
+            if (root != null) {
                   NodoArbol temp = root;
                   NodoArbol temp2 = null;
 
                   Fila fila = new Fila();
                   fila.insertar(temp);
 
-                  while(!(fila.isEmpty())) {
+                  while (!(fila.isEmpty())) {
                         temp = fila.extraer();
                         System.out.print(temp.letra + "-");
 
-                        if(temp.hijo != null) {
+                        if (temp.hijo != null) {
                               temp2 = temp.hijo;
                               fila.insertar(temp2);
                         }
 
-                        while(temp2.hermano != null) {
+                        while (temp2.hermano != null) {
                               temp2 = temp2.hermano;
                               fila.insertar(temp2);
                         }
@@ -264,17 +245,57 @@ public class ArbolGeneral {
             pornivel(root);
       }
 
+
+      //////METODOS DE PRUEBA\\\\\\\\
       private void printInConNivel(NodoArbol reco, int nivel) {
             if (reco != null) {
-                  printInConNivel(reco.hijo, nivel+1);
+                  printInConNivel(reco.hijo, nivel + 1);
                   System.out.print(reco.letra + "(" + nivel + ") - ");
-                  printInConNivel(reco.hermano, nivel+1);
+                  printInConNivel(reco.hermano, nivel + 1);
             }
       }
 
       public void printInConNivel() {
-            printInConNivel(root, 1);
+            printInConNivel(root, 0);
             System.out.println();
+      }
+
+      private void In(NodoArbol reco) {
+            if (reco != null) {
+                  In(reco.hijo);
+                  System.out.print(reco.letra + "-");
+                  In(reco.hermano);
+            }
+      }
+
+      public void In() {
+            In(root);
+            System.out.println();
+      }
+
+      private void Post(NodoArbol reco) {
+            if (reco != null) {
+                  Post(reco.hijo);
+                  Post(reco.hermano);
+                  System.out.print(reco.letra + "-");
+            }
+      }
+
+      public void Post() {
+            Post(root);
+            System.out.println();
+      }
+
+      public void Imprimir() {
+            imprime(root, " ");
+      }
+
+      private void imprime(NodoArbol r, String tab) {
+            if (r != null) {
+                  System.out.println(tab + r.letra);
+                  imprime(r.hijo, tab + "  ");
+                  imprime(r.hermano, tab);
+            }
       }
 
 }
