@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Stack;
-import java.util.StringTokenizer;
 
 public class ArbolGeneral {
 
@@ -21,56 +20,6 @@ public class ArbolGeneral {
       public ArbolGeneral() {
             root = null;
       }
-
-      public boolean Agregar(String elPath, String elDato) {
-            if (root == null) {
-                  root = new NodoArbol(elDato, null, null);
-                  return true;
-            } else {
-                  NodoArbol tmp = buscaNodo(elPath);
-                  if (tmp == null)
-                        return false;
-                  else
-                        return AgregaHermano(tmp, elDato);
-            }
-      }
-
-      private NodoArbol buscaNodo(String elPath) {
-            NodoArbol tmp1 = root;
-            NodoArbol tmp2 = tmp1;
-            StringTokenizer path = new StringTokenizer(elPath, "/");
-            String s;
-            while (path.hasMoreTokens()) {
-                  s = path.nextToken();
-                  while (tmp1 != null) {
-                        if (s.equalsIgnoreCase(tmp1.letra))
-                              break;
-                        else {
-                              tmp2 = tmp1 = tmp1.hermano;
-                        }
-                  }
-                  if (tmp1 == null)
-                        return tmp1;
-                  else {
-                        tmp2 = tmp1;
-                        tmp1 = tmp1.hijo;
-                  }
-            }
-            return tmp2;
-      }
-
-      private boolean AgregaHermano(NodoArbol elPadre, String elDato) {
-            NodoArbol tmp = elPadre.hijo;
-            if (tmp == null) {
-                  elPadre.hijo = new NodoArbol(elDato, null, null);
-                  return true;
-            } else {
-                  elPadre.hijo = new NodoArbol(elDato, null, elPadre.hijo);
-                  return true;
-            }
-      }
-
-      
 
       public class Fila {
             class Nodo {
@@ -243,47 +192,6 @@ public class ArbolGeneral {
 
       public void PorNivel() {
             pornivel(root);
-      }
-
-
-      //////METODOS DE PRUEBA\\\\\\\\
-      private void printInConNivel(NodoArbol reco, int nivel) {
-            if (reco != null) {
-                  printInConNivel(reco.hijo, nivel + 1);
-                  System.out.print(reco.letra + "(" + nivel + ") - ");
-                  printInConNivel(reco.hermano, nivel + 1);
-            }
-      }
-
-      public void printInConNivel() {
-            printInConNivel(root, 0);
-            System.out.println();
-      }
-
-      private void In(NodoArbol reco) {
-            if (reco != null) {
-                  In(reco.hijo);
-                  System.out.print(reco.letra + "-");
-                  In(reco.hermano);
-            }
-      }
-
-      public void In() {
-            In(root);
-            System.out.println();
-      }
-
-      private void Post(NodoArbol reco) {
-            if (reco != null) {
-                  Post(reco.hijo);
-                  Post(reco.hermano);
-                  System.out.print(reco.letra + "-");
-            }
-      }
-
-      public void Post() {
-            Post(root);
-            System.out.println();
       }
 
       public void Imprimir() {
